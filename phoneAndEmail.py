@@ -1,9 +1,3 @@
-'''
-1. Get the text off the clipboard
-2. Find all phone numbers and email addresses in the text.
-3. paste them onto the clipboard
-'''
-
 #! python3
 # phoneAndEmail.py - Finds phone numbers and email address on the clipboard.
 
@@ -27,7 +21,6 @@ emailRegex = re.compile(r'''(
                         )''', re.VERBOSE)
 
 # Find matches in clipboard text.
-
 text = str(pyperclip.paste())
 matches = []
 for groups in phoneRegex.findall(text):
@@ -37,5 +30,11 @@ for groups in phoneRegex.findall(text):
     matches.append(phoneNum)
 for groups in emailRegex.findall(text):
     matches.append(groups)
-    
-# TODO: Copy results to the clipboard.
+
+# Copy results to the clipboard.
+if len(matches) > 0:
+    pyperclip.copy('\n'.join(matches))
+    print('Copied to clipboard:')
+    print('\n'.join(matches))
+else:
+    print('No phone numbers or email addressed found.')
